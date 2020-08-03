@@ -1,0 +1,31 @@
+{
+  "name": "tod",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -watch",
+    "watch": "nodemon --ignore topicDB.json ./build/index.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "node-json-db": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.7",
+    "@types/jest": "^26.0.8",
+    "babel-jest": "^26.2.2",
+    "jest": "^26.2.2",
+    "nodemon": "^2.0.4",
+    "typescript": "^3.9.7"
+  }
+}

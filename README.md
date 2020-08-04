@@ -9,3 +9,7 @@ I would like to add functionality:
 - to return only one topic per day
 - to allow user to reject a topic and request another if its something they really don't want to/aren't able to do
 - to keep track of when certain topics are returned to display a calendar UI
+
+TODO:
+- [ ] add more tests for api routes
+- [ ] decide on frontend stack

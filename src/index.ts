@@ -63,6 +63,17 @@ app.get("/topics", function (req: express.Request, res: express.Response) {
 app.post("/topic", function (req: express.Request, res: express.Response) {
   // add a single topic
   const { length }: { length: number } = db.getData("/topics");
+  if (
+    !req.body ||
+    !req.body.topic ||
+    !req.body.topic.name ||
+    !req.body.topic.description
+  ) {
+    return res.json({
+      error:
+        'must supply topic in request body in form of `{ "topic": { "name": <string>, "description": <string> } }`',
+    });
+  }
   const topic: Topic = { ...req.body.topic, timesReturned: 0, id: length };
   db.push("/topics/" + length, topic);
   const newTopics: Topic[] = db.getData("/topics");

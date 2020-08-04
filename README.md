@@ -12,4 +12,5 @@ I would like to add functionality:
 
 TODO:
 - [ ] add more tests for api routes
+  - [end-to-end tests](https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6)
 - [ ] decide on frontend stack

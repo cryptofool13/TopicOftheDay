@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -watch",
     "watch": "nodemon --ignore topicDB.json ./build/index.js",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest --watch",
     "dev": "concurrently \"npm:build\" \"npm:watch\""
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "node-json-db": "^1.1.0"
   },
@@ -28,6 +29,7 @@
     "concurrently": "^5.2.0",
     "jest": "^26.2.2",
     "nodemon": "^2.0.4",
+    "supertest": "^4.0.2",
     "typescript": "^3.9.7"
   }
 }

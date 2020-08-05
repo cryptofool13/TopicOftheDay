@@ -4,13 +4,11 @@ import { Config } from "node-json-db/dist/lib/JsonDBConfig";
 import { Topic } from "./utils";
 
 let db: JsonDB;
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   db = new JsonDB(new Config("topicDB", true, true, "/"));
 } else {
   db = new JsonDB(new Config("TEST_topicDB", true, true, "/"));
 }
-
-console.log(process.env.NODE_ENV);
 
 const DEV_TOPICS: Topic[] = [
   {

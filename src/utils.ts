@@ -2,16 +2,17 @@ import { JsonDB } from "node-json-db";
 
 export function randomIndex(db: JsonDB) {
   const topics: Topic[] = db.getData("/topics");
-  const deleted: string[] = db.getData("/deletedIndecies");
-  const { length } = topics;
-  let randomInd = Math.floor(Math.random() * length);
-  if (deleted.length === length) {
-    throw new Error("No available topics");
+  const length = topics.length;
+  let randInd = Math.floor(Math.random() * length);
+  while (db.getData("/topics/" + randInd) === null) {
+    randInd = Math.floor(Math.random() * length);
   }
-  while (deleted.includes(String(randomInd))) {
-    randomInd = Math.floor(Math.random() * length);
-  }
-  return randomInd
+  return randInd;
+}
+
+export interface TopicEvent {
+  topic: number;
+  timestamp: Date;
 }
 
 export interface Topic {

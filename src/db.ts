@@ -16,22 +16,26 @@ const DEV_TOPICS: Topic[] = [
     description: "finish the app you just started working on",
     timesReturned: 0,
     id: 0,
+    lastReturned: new Date("08-04-2020"),
   },
   {
     name: "N-Cycle app",
     description: "finish the app you just started last month",
     timesReturned: 0,
     id: 1,
+    lastReturned: new Date("08-03-2020"),
   },
   {
     name: "japanese",
     description: "read through next chapter of japanese book",
     timesReturned: 0,
     id: 2,
+    lastReturned: new Date("08-02-2020"),
   },
 ];
 
 db.push("/topics", DEV_TOPICS);
 db.push("/deletedIndecies", []);
+db.push('/topicRecord', [])
 
 export { db };

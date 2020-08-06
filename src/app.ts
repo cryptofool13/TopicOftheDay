@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import { db } from "./db";
-import { Topic, randomIndex } from "./utils";
+import { Topic, randomIndex, TopicEvent } from "./utils";
 
 const app = express();
 
@@ -21,9 +21,13 @@ app.get("/topics/:id", function (req: express.Request, res: express.Response) {
 });
 
 app.get("/topic/rand", function (req: express.Request, res: express.Response) {
+  // first, check topicRecord to see if there is a topic already chosen for that day, if so return topic, else get new random topic
   const randInd = randomIndex(db);
   const topic: Topic = db.getData("/topics/" + randInd);
   db.push("/topics/" + randInd + "/timesReturned", topic.timesReturned + 1);
+  db.push("/topics/" + randInd + "/lastReturned", new Date());
+  const topicRecord: TopicEvent = { topic: topic.id, timestamp: new Date() };
+  db.push("/topicRecord", [topicRecord], false);
   res.json(topic);
 });
 
@@ -41,7 +45,12 @@ app.post("/topic", function (req: express.Request, res: express.Response) {
         'must supply topic in request body in form of `{ "topic": { "name": <string>, "description": <string> } }`',
     });
   }
-  const topic: Topic = { ...req.body.topic, timesReturned: 0, id: length };
+  const topic: Topic = {
+    ...req.body.topic,
+    timesReturned: 0,
+    id: length,
+    lastReturned: null,
+  };
   db.push("/topics/" + length, topic);
   const newTopics: Topic[] = db.getData("/topics");
   res.json(newTopics);

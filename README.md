@@ -12,6 +12,7 @@ I would like to add functionality:
 
 TODO:
 - [ ] create Model Class to hide db implementation
+  - [ ] ultimately to move to a remote db
 - [ ] separate api routes from app.ts
 - [ ] add more tests for api routes
   - [end-to-end tests](https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6)

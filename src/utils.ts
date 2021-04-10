@@ -4,9 +4,10 @@ export function randomIndex(db: JsonDB) {
 	const topics: Topic[] = db.getData('/topics');
 	const length = topics.length;
 	let randInd = Math.floor(Math.random() * length);
-	while (db.getData('/topics/' + randInd) === null) {
+	while (db.getData('/deletedIndecies').includes(randInd.toString())) {
 		randInd = Math.floor(Math.random() * length);
 	}
+
 	return randInd;
 }
 

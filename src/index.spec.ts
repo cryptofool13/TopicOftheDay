@@ -52,16 +52,16 @@ describe('app.ts', () => {
 		const res = await request(app).post('/topic').send({ topic: newTopic });
 		expect(res.body).toHaveLength(4);
 	});
-	it('should return a random topic', async () => {
-		const res = await request(app).get('/topic/rand');
-		expect(res.body).toHaveProperty('name');
-		expect(res.body).toHaveProperty('description');
-		expect(res.body).toHaveProperty('timesReturned');
-	});
 	it('should delete a topic', async () => {
 		const res = await request(app).delete('/topics/3');
 		expect(res.body).not.toHaveProperty('error');
 		const otherTopics = await request(app).get('/topics');
 		expect(otherTopics.body[3]).toBeNull();
+	});
+	it('should return a random topic', async () => {
+		const res = await request(app).get('/topic/rand');
+		expect(res.body).toHaveProperty('name');
+		expect(res.body).toHaveProperty('description');
+		expect(res.body).toHaveProperty('timesReturned');
 	});
 });

@@ -4,10 +4,10 @@ import { JsonDB } from 'node-json-db';
 import { randomIndex, TopicEvent } from '../utils';
 
 export class Topic {
-	protected dataPath = {
-		topics: '/topics',
-		deletedIndecies: '/deletedIndecies',
-		topicRecord: '/topicRecord',
+	public dataPath: {
+		topics: '/topics/';
+		deletedIndecies: '/deletedIndecies';
+		topicRecord: '/topicRecord';
 	};
 	protected store!: JsonDB;
 	public name!: string;
@@ -18,10 +18,15 @@ export class Topic {
 
 	constructor({ store }: { store: JsonDB }) {
 		this.store = store;
+		this.dataPath = {
+			topics: '/topics/',
+			deletedIndecies: '/deletedIndecies',
+			topicRecord: '/topicRecord',
+		};
 	}
 
 	getTopics() {
-		const topics = this.store.getObject<Topic[]>(this.dataPath.topics);
+		const topics = this.store.getObject<Topic[]>(this.dataPath.topics) || [];
 		return topics;
 	}
 
@@ -41,7 +46,8 @@ export class Topic {
 
 	getRandTopic(): Topic {
 		const randInd = randomIndex(this.store);
-		const topic: Topic = this.store.getData('/topics/' + randInd);
+		const topic: Topic = this.store.getData(this.dataPath.topics + randInd);
+
 		this.store.push(
 			'/topics/' + randInd + '/timesReturned',
 			topic.timesReturned + 1
@@ -53,5 +59,38 @@ export class Topic {
 		};
 		this.store.push('/topicRecord', [topicRecord], false);
 		return topic;
+	}
+
+	addTopic(topic: { name: string; description: string }) {
+		// add a single topic
+		const { length }: { length: number } = this.getTopics();
+
+		const fullTopic = {
+			...topic,
+			timesReturned: 0,
+			id: length,
+			lastReturned: null,
+		};
+		this.store.push('/topics/' + length, fullTopic);
+		const newTopics: Topic[] = this.getTopics();
+		return newTopics;
+	}
+
+	isDeleted(topicId: string): boolean {
+		console.log(this.store.getData('/deletedIndecies'), topicId);
+
+		return this.store.getData('/deletedIndecies').includes(topicId);
+	}
+
+	deleteTopic(topicId: string) {
+		try {
+			const toBeDeleted: Topic = this.getTopic(topicId);
+			this.store.delete('/topics/' + topicId);
+			this.store.push('/deletedIndecies', [topicId], false);
+			return toBeDeleted;
+		} catch (e) {
+			throw e;
+			// res.json({ error: 'topic does not exists' });
+		}
 	}
 }

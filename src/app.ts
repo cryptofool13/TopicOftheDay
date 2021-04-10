@@ -37,7 +37,9 @@ app.get('/topic/rand', function (req, res) {
 		const topic = req.context?.topics.getRandTopic();
 		res.json(topic);
 	} catch (e) {
-		res.status(500).json({ error: 'somethings wrong: ' + JSON.stringify(e) });
+		console.log(e);
+
+		res.status(500).json({ error: 'somethings wrong: ' + e });
 	}
 });
 
@@ -52,35 +54,34 @@ app.get('/topics', function (req, res) {
 
 app.post('/topic', function (req, res) {
 	// add a single topic
-	const { length }: { length: number } = db.getData('/topics');
 	if (!req?.body?.topic?.name || !req?.body?.topic?.description) {
 		return res.json({
 			error:
 				'must supply topic in request body in form of `{ "topic": { "name": <string>, "description": <string> } }`',
 		});
 	}
-	const topic: Topic = {
-		...req.body.topic,
-		timesReturned: 0,
-		id: length,
-		lastReturned: null,
-	};
-	db.push('/topics/' + length, topic);
-	const newTopics: Topic[] = db.getData('/topics');
+	const topic: { name: string; description: string } = req.body.topic;
+	const newTopics = req.context?.topics.addTopic(topic);
 	res.json(newTopics);
 });
 
 app.delete('/topics/:id', function (req, res) {
 	const id = req.params.id;
 	try {
-		const toBeDeleted: Topic = db.getData('/topics/' + id);
-		db.delete('/topics/' + id);
-		db.push('/deletedIndecies', [id], false);
-		res.json(toBeDeleted);
+		const deleted = req.context?.topics.deleteTopic(id);
+		res.json(deleted);
 	} catch (e) {
-		console.log('error: ', e);
-		res.json({ error: 'topic does not exists' });
+		res.json({ error: e });
 	}
+	// try {
+	// 	const toBeDeleted: Topic = db.getData('/topics/' + id);
+	// 	db.delete('/topics/' + id);
+	// 	db.push('/deletedIndecies', [id], false);
+	// 	res.json(toBeDeleted);
+	// } catch (e) {
+	// 	console.log('error: ', e);
+	// 	res.json({ error: 'topic does not exists' });
+	// }
 });
 
 export { app };

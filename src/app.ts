@@ -26,7 +26,7 @@ app.get("/topic/rand", function (req: express.Request, res: express.Response) {
   const topic: Topic = db.getData("/topics/" + randInd);
   db.push("/topics/" + randInd + "/timesReturned", topic.timesReturned + 1);
   db.push("/topics/" + randInd + "/lastReturned", new Date());
-  const topicRecord: TopicEvent = { topic: topic.id, timestamp: new Date() };
+  const topicRecord: TopicEvent = { topicId: topic.id, timestamp: new Date() };
   db.push("/topicRecord", [topicRecord], false);
   res.json(topic);
 });

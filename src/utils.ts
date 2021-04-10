@@ -11,7 +11,7 @@ export function randomIndex(db: JsonDB) {
 }
 
 export interface TopicEvent {
-  topic: number;
+  topicId: number;
   timestamp: Date;
 }
 

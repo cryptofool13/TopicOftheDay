@@ -11,6 +11,9 @@ I would like to add functionality:
 - to keep track of when certain topics are returned to display a calendar UI
 
 TODO:
+- [ ] create Model Class to hide db implementation
+- [ ] separate api routes from app.ts
 - [ ] add more tests for api routes
   - [end-to-end tests](https://dev.to/nedsoft/testing-nodejs-express-api-with-jest-and-supertest-1km6)
-- [ ] decide on frontend stack
+- [x] decide on frontend stack
+  - Svelte

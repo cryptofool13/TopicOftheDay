@@ -20,5 +20,5 @@ export interface Topic {
   description: string;
   id: number;
   timesReturned: number;
-  lastReturned: Date | null;
+  lastReturned?: Date | null;
 }

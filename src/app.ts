@@ -33,13 +33,12 @@ app.get('/topics/:id', function (req, res) {
 
 app.get('/topic/rand', function (req, res) {
 	// first, check topicRecord to see if there is a topic already chosen for that day, if so return topic, else get new random topic
-	const randInd = randomIndex(db);
-	const topic: Topic = db.getData('/topics/' + randInd);
-	db.push('/topics/' + randInd + '/timesReturned', topic.timesReturned + 1);
-	db.push('/topics/' + randInd + '/lastReturned', new Date());
-	const topicRecord: TopicEvent = { topicId: topic.id, timestamp: new Date() };
-	db.push('/topicRecord', [topicRecord], false);
-	res.json(topic);
+	try {
+		const topic = req.context?.topics.getRandTopic();
+		res.json(topic);
+	} catch (e) {
+		res.status(500).json({ error: 'somethings wrong: ' + JSON.stringify(e) });
+	}
 });
 
 app.get('/topics', function (req, res) {

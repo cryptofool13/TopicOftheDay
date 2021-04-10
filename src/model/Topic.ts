@@ -1,6 +1,7 @@
 // import {} from 'node-json-db'
 
 import { JsonDB } from 'node-json-db';
+import { randomIndex, TopicEvent } from '../utils';
 
 export class Topic {
 	protected dataPath = {
@@ -36,5 +37,21 @@ export class Topic {
 		} catch (e) {
 			throw e;
 		}
+	}
+
+	getRandTopic(): Topic {
+		const randInd = randomIndex(this.store);
+		const topic: Topic = this.store.getData('/topics/' + randInd);
+		this.store.push(
+			'/topics/' + randInd + '/timesReturned',
+			topic.timesReturned + 1
+		);
+		this.store.push('/topics/' + randInd + '/lastReturned', new Date());
+		const topicRecord: TopicEvent = {
+			topicId: topic.id,
+			timestamp: new Date(),
+		};
+		this.store.push('/topicRecord', [topicRecord], false);
+		return topic;
 	}
 }

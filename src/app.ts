@@ -5,6 +5,7 @@ import { db } from './db';
 import { randomIndex, TopicEvent } from './utils';
 import { Topic } from './model/Topic';
 import { JsonDB } from 'node-json-db';
+import cors from 'cors';
 
 const app = express();
 
@@ -13,7 +14,7 @@ export interface Context {
 }
 
 app.use(json());
-
+app.use(cors());
 app.use((req, res, next) => {
 	req.context = {
 		topics: new Topic({ store: db }),
@@ -21,10 +22,26 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use((req, res, next) => {
+	const t = setTimeout(() => {
+		next();
+	}, 800);
+});
+
 app.get('/topics/:id', function (req, res) {
 	const id = req.params.id;
 	try {
 		const topic = req.context?.topics.getTopic(id);
+		res.json(topic);
+	} catch (e) {
+		res.status(500).json({ error: 'topic does not exist' });
+	}
+});
+
+app.put('/topic/:id', function (req, res) {
+	const id = req.params.id;
+	try {
+		const topic = req.context?.topics.selectTopic(id);
 		res.json(topic);
 	} catch (e) {
 		res.status(500).json({ error: 'topic does not exist' });
@@ -49,6 +66,7 @@ app.get('/topics', function (req, res) {
 	if (!topics || !topics.length) {
 		res.json({ error: 'no topics' });
 	}
+
 	res.json(topics);
 });
 

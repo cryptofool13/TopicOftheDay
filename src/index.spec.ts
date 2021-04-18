@@ -64,4 +64,10 @@ describe('app.ts', () => {
 		expect(res.body).toHaveProperty('description');
 		expect(res.body).toHaveProperty('timesReturned');
 	});
+
+	it('should increment `timesReturned` after selecting topic', async () => {
+		const res = await request(app).put('/topic/1');
+		expect(res.body).toHaveProperty('timesReturned');
+		expect(res.body.timesReturned).toBe(1);
+	});
 });

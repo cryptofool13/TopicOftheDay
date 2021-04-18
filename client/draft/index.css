@@ -1,0 +1,173 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+
+main {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: bisque;
+	height: fit-content;
+	min-height: 100vh;
+}
+
+.wrapper {
+	max-width: 90vw;
+}
+
+.app-title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+.instructions {
+	font-size: 20px;
+	margin-bottom: 0.75rem;
+}
+
+.tod {
+	background-color: darkkhaki;
+	padding: 2rem;
+	border-radius: 16px;
+	margin: 0;
+	margin-bottom: 2rem;
+}
+
+.topic-item {
+	padding: 1rem;
+	border: 2px solid thistle;
+	border-radius: 16px;
+	background-color: whitesmoke;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
+		0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
+		0 16px 16px rgba(0, 0, 0, 0.12);
+	transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.topic-name {
+	margin-bottom: 1rem;
+	font-size: 2rem;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: underline 2px wavy indigo;
+}
+
+.topic-desc {
+	font-size: 20px;
+	margin-bottom: 0.75rem;
+}
+
+.btns-and-meta {
+	display: flex;
+	justify-content: space-between;
+}
+
+.stats {
+	color: dimgray;
+}
+
+.btns {
+	display: flex;
+	/* flex-direction: column; */
+}
+
+.reject-btn {
+	margin-right: 1rem;
+}
+
+.create-topic-btn,
+.re-roll-btn,
+.execute-btn,
+.reject-btn,
+.delete-btn {
+	/* outline: thin; */
+	height: 2rem;
+	padding: 0 0.75rem;
+	border-radius: 16px;
+	border: solid 2px whitesmoke;
+	transition: border 0.3s ease, border-radius 0.3s ease;
+}
+
+.delete-btn {
+	background-color: tomato;
+}
+
+.execute-btn {
+	background-color: turquoise;
+}
+
+.reject-btn {
+	background-color: orange;
+}
+
+.create-topic-btn {
+	background-color: plum;
+}
+
+.re-roll-btn {
+	background-color: deepskyblue;
+}
+
+.all-topics {
+	background-color: darkorange;
+	border-radius: 16px;
+	padding: 2rem;
+	margin-bottom: 2rem;
+}
+
+.all-topics > .topic-item:not(:last-child) {
+	margin-bottom: 2rem;
+}
+
+.menu-header {
+	background-color: rebeccapurple;
+	padding: 2rem;
+	border-radius: 16px;
+	margin: 2rem 0;
+	text-align: center;
+}
+
+.menu-btns {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.title {
+	padding: 1rem;
+	border: 2px solid thistle;
+	border-radius: 16px;
+	background-color: whitesmoke;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
+		0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
+		0 16px 16px rgba(0, 0, 0, 0.12);
+	transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* interactivity */
+.create-topic-btn:hover,
+.re-roll-btn:hover,
+.execute-btn:hover,
+.reject-btn:hover,
+.delete-btn:hover {
+	border: solid 2px gold;
+	outline: none;
+}
+.create-topic-btn:active,
+.re-roll-btn:active,
+.execute-btn:active,
+.reject-btn:active,
+.delete-btn:active {
+	border-radius: 24px;
+	border: 2px solid limegreen;
+}
+
+.topic-item:hover,
+.title:hover {
+	background-color: ghostwhite;
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.11), 0 2px 2px rgba(0, 0, 0, 0.11),
+		0 4px 4px rgba(0, 0, 0, 0.11), 0 8px 8px rgba(0, 0, 0, 0.11),
+		0 16px 16px rgba(0, 0, 0, 0.11), 0 32px 32px rgba(0, 0, 0, 0.11);
+}

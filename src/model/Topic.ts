@@ -33,10 +33,6 @@ export class Topic {
 	getTopic(topicId: string) {
 		try {
 			const topic: Topic = this.store.getObject<Topic>('/topics/' + topicId);
-			this.store.push(
-				'/topics/' + topicId + '/timesReturned',
-				topic.timesReturned + 1
-			);
 
 			return topic;
 		} catch (e) {
@@ -44,20 +40,27 @@ export class Topic {
 		}
 	}
 
+	selectTopic(topicId: string) {
+		if (!topicId) {
+			throw Error('must supply topic id');
+		}
+		const exists = !this.isDeleted(topicId);
+		if (exists) {
+			const topic: Topic = this.getTopic(topicId);
+
+			this.store.push(
+				'/topics/' + topicId + '/timesReturned',
+				topic.timesReturned + 1
+			);
+
+			return topic;
+		}
+	}
+
 	getRandTopic(): Topic {
 		const randInd = randomIndex(this.store);
 		const topic: Topic = this.store.getData(this.dataPath.topics + randInd);
 
-		this.store.push(
-			'/topics/' + randInd + '/timesReturned',
-			topic.timesReturned + 1
-		);
-		this.store.push('/topics/' + randInd + '/lastReturned', new Date());
-		const topicRecord: TopicEvent = {
-			topicId: topic.id,
-			timestamp: new Date(),
-		};
-		this.store.push('/topicRecord', [topicRecord], false);
 		return topic;
 	}
 
@@ -90,7 +93,6 @@ export class Topic {
 			return toBeDeleted;
 		} catch (e) {
 			throw e;
-			// res.json({ error: 'topic does not exists' });
 		}
 	}
 }

@@ -52,6 +52,7 @@ export class Topic {
 				'/topics/' + topicId + '/timesReturned',
 				topic.timesReturned + 1
 			);
+			this.store.push('/topics/' + topicId + '/lastReturned', new Date());
 
 			return topic;
 		}

@@ -26,13 +26,15 @@ export class Topic {
 	}
 
 	getTopics() {
-		const topics = this.store.getObject<Topic[]>(this.dataPath.topics) || [];
-		return topics;
+		// check if there are items  in db by comparing length of deleted indecies and topics
+		const topics: Topic[] = this.store.getData(this.dataPath.topics) || [];
+
+		return topics.filter((t) => !!t);
 	}
 
 	getTopic(topicId: string) {
 		try {
-			const topic: Topic = this.store.getObject<Topic>('/topics/' + topicId);
+			const topic: Topic = this.store.getData('/topics/' + topicId);
 
 			return topic;
 		} catch (e) {

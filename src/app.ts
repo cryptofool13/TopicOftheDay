@@ -29,77 +29,76 @@ app.use((req, res, next) => {
 });
 
 app.get('/topics/:id', function (req, res) {
+	console.log("app.get('/topics/:id'");
+
 	const id = req.params.id;
 	try {
 		const topic = req.context?.topics.getTopic(id);
-		res.json(topic);
+		return res.json(topic);
 	} catch (e) {
-		res.status(500).json({ error: 'topic does not exist' });
+		return res.status(500).json({ error: 'topic does not exist' });
 	}
 });
 
-app.put('/topic/:id', function (req, res) {
+app.put('/topics/:id', function (req, res) {
 	const id = req.params.id;
 	try {
 		const topic = req.context?.topics.selectTopic(id);
-		res.json(topic);
+		return res.json(topic);
 	} catch (e) {
-		res.status(500).json({ error: 'topic does not exist' });
+		return res.status(500).json({ error: 'topic does not exist' });
 	}
 });
 
 app.get('/topic/rand', function (req, res) {
 	// first, check topicRecord to see if there is a topic already chosen for that day, if so return topic, else get new random topic
 	try {
+		console.log('getting random');
+		
 		const topic = req.context?.topics.getRandTopic();
-		res.json(topic);
+		console.log(topic);
+		
+		return res.json(topic);
 	} catch (e) {
 		console.log(e);
 
-		res.status(500).json({ error: 'somethings wrong: ' + e });
+		return res.status(500).json({ error: 'somethings wrong: ' + e });
 	}
 });
 
 app.get('/topics', function (req, res) {
-	// const topics = db.getData('/topics');
+	console.log('getting topics');
 	const topics = req.context?.topics.getTopics();
+	console.log(topics);
+
 	if (!topics || !topics.length) {
-		res.json({ error: 'no topics' });
+		return res.status(500).json({ error: 'no topics' });
 	}
 
-	res.json(topics);
+	return res.json(topics);
 });
 
 app.post('/topic', function (req, res) {
 	// add a single topic
 	if (!req?.body?.topic?.name || !req?.body?.topic?.description) {
-		return res.json({
+		return res.status(500).json({
 			error:
 				'must supply topic in request body in form of `{ "topic": { "name": <string>, "description": <string> } }`',
 		});
 	}
 	const topic: { name: string; description: string } = req.body.topic;
 	const newTopics = req.context?.topics.addTopic(topic);
-	res.json(newTopics);
+	return res.json(newTopics);
 });
 
 app.delete('/topics/:id', function (req, res) {
 	const id = req.params.id;
 	try {
 		const deleted = req.context?.topics.deleteTopic(id);
-		res.json(deleted);
+		return res.json(deleted);
 	} catch (e) {
-		res.json({ error: e });
+		return res.json({ error: e });
 	}
-	// try {
-	// 	const toBeDeleted: Topic = db.getData('/topics/' + id);
-	// 	db.delete('/topics/' + id);
-	// 	db.push('/deletedIndecies', [id], false);
-	// 	res.json(toBeDeleted);
-	// } catch (e) {
-	// 	console.log('error: ', e);
-	// 	res.json({ error: 'topic does not exists' });
-	// }
 });
 
 export { app };

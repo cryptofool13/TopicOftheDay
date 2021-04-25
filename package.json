@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -watch",
+    "start": "node ./build/index.js",
     "watch": "nodemon --ignore topicDB.json ./build/index.js",
     "test": "cross-env NODE_ENV=test jest --watch",
     "dev": "concurrently \"npm:build\" \"npm:watch\""
